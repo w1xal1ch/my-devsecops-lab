@@ -1,0 +1,94 @@
+services:
+  scripts:
+    build: .
+    container_name: my_scripts
+    depends_on:
+      - db
+    networks:
+      - lab-net
+  webapp:
+    build: ./webapp
+    container_name: webapp
+    ports:
+      - "5000:5000"
+    networks:
+      - lab-net
+    volumes:
+      - ./scripts:/app/scripts
+      - ./reports:/app/reports
+  juiceshop:
+    image: bkimminich/juice-shop
+    container_name: juiceshop
+    ports:
+      - "3001:3000"
+    networks:
+      - lab-net
+
+  db:
+    image: postgres:16
+    container_name: pgsql
+    environment:
+      POSTGRES_USER: pentest
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: results
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - lab-net
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: secret
+    ports:
+      - "8081:80"
+    networks:
+      - lab-net
+
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    ports:
+      - "3000:3000"
+      - "2222:22"
+    volumes:
+      - gitea-data:/data
+    networks:
+      - lab-net
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    ports:
+      - "9000:9000"
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer-data:/data
+    networks:
+      - lab-net
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3030:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - lab-net
+
+networks:
+  lab-net:
+    driver: bridge
+
+volumes:
+  db-data:
+  gitea-data:
+  portainer-data:
+  grafana-data:
+
