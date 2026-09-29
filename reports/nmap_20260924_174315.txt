@@ -1,0 +1,12 @@
+Starting Nmap 7.95 ( https://nmap.org ) at 2026-09-24 17:43 UTC
+Nmap scan report for site-access (172.18.0.8)
+Host is up (0.0000080s latency).
+rDNS record for 172.18.0.8: site-access.my-devsecops-lab_devsecops-net
+Not shown: 999 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+80/tcp open  http    Apache httpd 2.4.68
+MAC Address: A6:BC:79:8E:6D:DE (Unknown)
+Service Info: Host: 172.18.0.8
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 6.39 seconds

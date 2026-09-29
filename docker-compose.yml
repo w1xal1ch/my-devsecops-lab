@@ -1,0 +1,113 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    ports:
+      - "80:3000"
+    environment:
+      - HOMEPAGE_ALLOWED_HOSTS=localhost,127.0.0.1
+    volumes:
+      - ./homepage/config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - devsecops-net
+
+  juice-shop:
+    image: bkimminich/juice-shop:latest
+    container_name: juice-shop
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    networks:
+      - devsecops-net
+
+  dvwa:
+    image: vulnerables/web-dvwa:latest
+    container_name: dvwa
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    networks:
+      - devsecops-net
+
+  scanner-panel:
+    build: ./scanner-panel
+    container_name: scanner-panel
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./reports:/app/reports
+    networks:
+      - devsecops-net
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql
+    networks:
+      - devsecops-net
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+    depends_on:
+      - mysql
+    networks:
+      - devsecops-net
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - devsecops-net
+
+  site-access:
+    build: ./sites/access
+    container_name: site-access
+    restart: unless-stopped
+    ports:
+      - "8001:80"
+    depends_on:
+      - mysql
+    networks:
+      - devsecops-net
+
+  site-suvenir:
+    build: ./sites/suvenir
+    container_name: site-suvenir
+    restart: unless-stopped
+    ports:
+      - "8002:80"
+    depends_on:
+      - mysql
+    networks:
+      - devsecops-net
+
+networks:
+  devsecops-net:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  portainer_data:

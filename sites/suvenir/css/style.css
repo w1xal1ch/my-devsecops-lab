@@ -1,0 +1,181 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f7fc;
+    color: #2c3e2f;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    flex: 1;
+}
+
+/* Шапка */
+header {
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-bottom: 3px solid #ffc107;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #00acc1;
+    text-decoration: none;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.main-nav a, .user-button {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 5px 0;
+}
+
+.main-nav a:hover, .user-button:hover {
+    color: #00acc1;
+}
+
+.user-menu {
+    position: relative;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    min-width: 150px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    list-style: none;
+    z-index: 1000;
+}
+
+.user-dropdown li a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+}
+
+.user-dropdown li a:hover {
+    background: #e0f7fa;
+    color: #00acc1;
+}
+
+/* Сетка товаров */
+.catalog, .popular-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin: 30px 0;
+}
+
+@media (max-width: 1000px) {
+    .catalog, .popular-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .catalog, .popular-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 450px) {
+    .catalog, .popular-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.product {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+    text-align: center;
+    padding: 15px;
+}
+
+.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0,172,193,0.15);
+}
+
+.product img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.product h3 {
+    margin: 15px 0 5px;
+    font-size: 1.2rem;
+    color: #00acc1;
+}
+
+.price {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #ffc107;
+    margin: 10px 0;
+}
+
+button, .btn, .order-btn {
+    background: #00acc1;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+button:hover, .btn:hover, .order-btn:hover {
+    background: #008c9e;
+}
+
+/* Хелперы */
+.text-center { text-align: center; }
+.hero { text-align: center; padding: 60px 20px; background: #e0f7fa; border-radius: 24px; margin: 20px 0; }
+.hero .btn { background: #ffc107; color: #2c3e2f; }
+.hero .btn:hover { background: #e0a800; }

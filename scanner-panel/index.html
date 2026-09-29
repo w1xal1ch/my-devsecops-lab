@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>DevSecOps Lab — Scanner Panel</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #0d0d0d; color: #d9d9d9; padding: 40px; }
+        h1 { color: #bfbfbf; }
+        input {
+            background: #1a1a1a; color: #d9d9d9; border: 1px solid #333;
+            padding: 12px; width: 400px; border-radius: 6px; font-size: 16px;
+        }
+        button {
+            background: #1a1a1a; color: #d9d9d9; border: 1px solid #333;
+            padding: 12px 24px; margin: 8px; cursor: pointer; border-radius: 6px;
+            font-size: 16px;
+        }
+        button:hover { background: #333; }
+        #output {
+            background: #1a1a1a; border: 1px solid #333; padding: 20px;
+            margin-top: 20px; white-space: pre-wrap; font-family: monospace;
+            max-height: 600px; overflow-y: auto;
+        }
+        .hint { color: #8c8c8c; font-size: 14px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>🛡️ DevSecOps Lab — Scanner Panel</h1>
+
+    <p>Введи URL цели:</p>
+    <input type="text" id="target" placeholder="http://juice-shop:3000" value="http://juice-shop:3000">
+    <div class="hint">Разрешены: http://juice-shop:3000, http://dvwa</div>
+
+    <p>Запусти сканер:</p>
+    <button onclick="runScanner('trivy')">🔍 Trivy (SCA)</button>
+    <button onclick="runScanner('zap')">🌐 OWASP ZAP (Baseline DAST)</button>
+    <button onclick="runScanner('zap-full')">🔥 OWASP ZAP (Full DAST)</button>
+    <button onclick="runScanner('nmap')">📡 Nmap (Network)</button>
+
+    <div id="output">Выбери сканер...</div>
+
+    <script>
+        async function runScanner(name) {
+            const target = document.getElementById('target').value.trim();
+            const output = document.getElementById('output');
+
+            if (!target) {
+                output.textContent = 'Ошибка: введи URL';
+                return;
+            }
+
+            output.textContent = `Запуск ${name} на ${target}... Это может занять несколько минут.`;
+
+            try {
+                const res = await fetch(`/scan/${name}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({target: target})
+                });
+                const data = await res.json();
+
+                if (data.error) {
+                    output.textContent = `Ошибка: ${data.error}`;
+                } else {
+                    output.textContent = `Сканер: ${data.scanner}\nЦель: ${data.target}\nСтатус: ${data.status}\nОтчёт: ${data.report}\n\n${data.output}`;
+                }
+            } catch (e) {
+                output.textContent = `Ошибка запроса: ${e}`;
+            }
+        }
+    </script>
+</body>
+</html>

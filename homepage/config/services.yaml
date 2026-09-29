@@ -1,0 +1,39 @@
+- DevSecOps Lab:
+    - Scanner Panel:
+        href: http://localhost:5000
+        description: Панель запуска сканеров (Trivy, ZAP, Nmap)
+        icon: si-owasp
+    - Homepage:
+        href: http://localhost
+        description: Этот дашборд
+        icon: si-homeassistant
+
+- Уязвимые приложения:
+    - Juice Shop:
+        href: http://localhost:3000
+        description: OWASP Juice Shop — уязвимое веб-приложение
+        icon: si-owasp
+    - DVWA:
+        href: http://localhost:8080
+        description: Damn Vulnerable Web Application
+        icon: si-php
+
+- Мои проекты:
+    - Access (магазин):
+        href: http://localhost:8001/acs/
+        description: Дипломный проект — интернет-магазин аксессуаров
+        icon: si-php
+    - Suvenir (сувениры):
+        href: http://localhost:8002/suvenir/
+        description: Дипломный проект — магазин сувениров
+        icon: si-php
+
+- Инфраструктура:
+    - phpMyAdmin:
+        href: http://localhost:8081
+        description: Управление базами MySQL
+        icon: si-phpmyadmin
+    - Portainer:
+        href: http://localhost:9000
+        description: Управление Docker
+        icon: si-portainer
