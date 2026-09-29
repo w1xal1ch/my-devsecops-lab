@@ -1,35 +1,45 @@
 # My DevSecOps Lab
 
-Моя личная среда для тестирования и пентеста.
+Учебный полигон для практики DevOps и DevSecOps: тестирование, сканирование, мониторинг.
 
-## Стек
-- Docker, Docker Compose
-- Python (Flask, requests, psycopg2)
-- PostgreSQL + pgAdmin
-- Gitea, Portainer, Grafana
-- Juice Shop (уязвимое веб-приложение)
+## Цель
 
-## Запуск
+Собрать реальную инфраструктуру для отработки:
+- Docker и docker-compose
+- CI/CD (GitHub Actions)
+- SCA-сканирование (Trivy)
+- DAST-сканирование (OWASP ZAP)
+- Сетевое сканирование (Nmap)
+- Мониторинг (Grafana, Prometheus)
+- Работу с БД (MySQL, phpMyAdmin)
+- Управление контейнерами (Portainer)
+
+## Что внутри
+
+### Инфраструктура
+| Сервис | Порт | Описание |
+|--------|------|----------|
+| Homepage | 80 | Дашборд полигона |
+| Scanner Panel | 5000 | Панель запуска сканеров (Trivy, ZAP, Nmap) |
+| MySQL | 3306 | База данных полигона |
+| phpMyAdmin | 8081 | Управление БД |
+| Portainer | 9000 | Управление Docker |
+
+### Уязвимые приложения
+| Сервис | Порт | Описание |
+|--------|------|----------|
+| Juice Shop | 3000 | OWASP Juice Shop — уязвимое веб-приложение |
+| DVWA | 8080 | Damn Vulnerable Web Application |
+
+### Мои проекты
+| Сервис | Порт | Описание |
+|--------|------|----------|
+| site-access | 8001 | Дипломный проект — интернет-магазин аксессуаров |
+| site-suvenir | 8002 | Дипломный проект — магазин сувениров |
+
+## Как запустить
+
 ```bash
-docker compose up -d --build
-
-
-Сервисы
-Сервис				Адрес
-Pentest Dashboard	http://localhost:5000
-Juice Shop		http://localhost:3001
-Gitea			http://localhost:3000
-Portainer		http://localhost:9000
-Grafana			http://localhost:3030
-pgAdmin			http://localhost:8081
-
-
-Что умеет
-
-    Запускать мои пентест-скрипты через веб.
-
-    Сохранять отчёты на хосте.
-
-    Писать результаты в PostgreSQL.
-
-    Управлять контейнерами через Portainer.
+git clone https://github.com/w1xal1ch/my-devsecops-lab.git
+cd my-devsecops-lab
+docker compose up -d
