@@ -17,13 +17,45 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build scanner-panel image
+      # ─── Сборка образов ─────────────────────────────────
+      - name: Build scanner-panel
         run: docker build -t scanner-panel:test ./scanner-panel
 
-      - name: Run Trivy SCA on scanner-panel
+      - name: Build site-access
+        run: docker build -t site-access:test ./sites/access
+
+      - name: Build site-suvenir
+        run: docker build -t site-suvenir:test ./sites/suvenir
+
+      # ─── SCA-сканирование (Trivy) ───────────────────────
+      - name: Trivy SCA — scanner-panel
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'scanner-panel:test'
           format: 'table'
           exit-code: '0'
           severity: 'CRITICAL,HIGH'
+
+      - name: Trivy SCA — site-access
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'site-access:test'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Trivy SCA — site-suvenir
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'site-suvenir:test'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+
+      # ─── Сохранение отчётов ─────────────────────────────
+      - name: Upload Trivy reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-reports
+          path: reports/
